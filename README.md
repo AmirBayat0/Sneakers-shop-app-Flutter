@@ -2,7 +2,7 @@
 ## Description
 I made this app as practice in my Flutter 100 days challenge for myself.
 in this project, I used animation as the first time I used that.
-the UI of this project is not my idea and I found it on the Dribble website but that was so simple and I decided to change it and improve that.
+the UI of this project is not my idea and I found it on the Dribble website but that was simple and I decided to change it and improve that.
 
 I Hope you Like this Project❤!
 ## ScreenShots

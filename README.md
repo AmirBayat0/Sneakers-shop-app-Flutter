@@ -13,12 +13,13 @@ I Hope you Like this Project❤!
 ![Screenshot (309)](https://user-images.githubusercontent.com/91388754/153895819-f3670642-953d-4aa8-ae22-221d63cff08d.png)
 ![Screenshot (310)](https://user-images.githubusercontent.com/91388754/153895844-70449a26-9857-411a-bb61-db3c7cbad462.png)
 
-# ⚠️ Essential Packages 
-* font_awesome_flutter: ^9.2.0
-* custom_navigation_bar: ^0.8.2
-* simple_animations: ^4.0.1
-* supercharged: ^2.1.1
-## Links
-* [My Socials](https://znap.link/CodeWithFlexz)
-* [Youtube channel](https://www.youtube.com/channel/UCLVrYXt3SL9rT-IcDmgU9Wg)
-* [Instagram](https://instagram.com/codewithflexz)
+## This link allows you to support me, and I really appreciate your help:
+* [SUPPORT](https://www.buymeacoffee.com/AmirBayat)
+* 
+## My Socials:
+* [INSTAGRAM](https://www.instagram.com/codewithflexz)
+* [YOUTUBE]( https://www.youtube.com/c/ProgrammingWithFlexZ)
+* [GITHUB](https://github.com/AmirBayat0)
+* [CONTACT ME](https://amirbayat.dev@gmail.com)
+* [FIND MORE](https://zaap.bio/CodeWithFlexz)
+

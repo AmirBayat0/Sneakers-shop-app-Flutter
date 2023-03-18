@@ -1,11 +1,15 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sneakers_app/animation/fadeanimation.dart';
-import 'package:sneakers_app/constanst.dart';
-import 'package:sneakers_app/models/model.dart';
-import 'package:sneakers_app/screens/detail/detail_screen.dart';
+import 'package:sneakers_app/theme/custom_app_theme.dart';
+
+import '../../../../animation/fadeanimation.dart';
+import '../../../../utils/constants.dart';
+import '../../../../models/shoe_model.dart';
+import '../../../../view/detail/detail_screen.dart';
+import '../../../data/dummy_data.dart';
 
 class Body extends StatefulWidget {
   const Body({Key? key}) : super(key: key);
@@ -15,23 +19,8 @@ class Body extends StatefulWidget {
 }
 
 class _BodyState extends State<Body> {
-  final List categories = [
-    'Nike',
-    'Addidas',
-    'Jordan',
-    'Puma',
-    'Gucci',
-    'Tom Ford',
-    'Koio',
-  ];
-  final List featured = [
-    'New',
-    'Featured',
-    'Upcoming',
-  ];
-  int categoriescurrentIndex = 0;
-  int featuredcurrentIndex = 1;
-  int newcurrentIndex = 0;
+  int selectedIndexOfCategory = 0;
+  int selectedIndexOfFeatured = 1;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
@@ -39,14 +28,10 @@ class _BodyState extends State<Body> {
     return Column(
       children: [
         topCategoriesWidget(width, height),
-        SizedBox(
-          height: 10,
-        ),
+        SizedBox(height: 10),
         middleCategoriesWidget(width, height),
-        SizedBox(
-          height: 5,
-        ),
-        moreTextwidget(),
+        SizedBox(height: 5),
+        moreTextWidget(),
         lastCategoriesWidget(width, height),
       ],
     );
@@ -61,13 +46,14 @@ class _BodyState extends State<Body> {
           width: width,
           height: height / 18,
           child: ListView.builder(
+              physics: BouncingScrollPhysics(),
               itemCount: categories.length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (ctx, index) {
                 return GestureDetector(
                   onTap: () {
                     setState(() {
-                      categoriescurrentIndex = index;
+                      selectedIndexOfCategory = index;
                     });
                   },
                   child: Padding(
@@ -75,11 +61,11 @@ class _BodyState extends State<Body> {
                     child: Text(
                       categories[index],
                       style: TextStyle(
-                          fontSize: categoriescurrentIndex == index ? 21 : 18,
-                          color: categoriescurrentIndex == index
-                              ? darkTextColor
-                              : unSelectedtextColor,
-                          fontWeight: categoriescurrentIndex == index
+                          fontSize: selectedIndexOfCategory == index ? 21 : 18,
+                          color: selectedIndexOfCategory == index
+                              ? AppConstantsColor.darkTextColor
+                              : AppConstantsColor.unSelectedTextColor,
+                          fontWeight: selectedIndexOfCategory == index
                               ? FontWeight.bold
                               : FontWeight.w400),
                     ),
@@ -102,13 +88,14 @@ class _BodyState extends State<Body> {
           child: RotatedBox(
             quarterTurns: -1,
             child: ListView.builder(
+                physics: BouncingScrollPhysics(),
                 itemCount: featured.length,
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return GestureDetector(
                     onTap: () {
                       setState(() {
-                        featuredcurrentIndex = index;
+                        selectedIndexOfFeatured = index;
                       });
                     },
                     child: Padding(
@@ -116,11 +103,12 @@ class _BodyState extends State<Body> {
                       child: Text(
                         featured[index],
                         style: TextStyle(
-                            fontSize: featuredcurrentIndex == index ? 19 : 17,
-                            color: featuredcurrentIndex == index
-                                ? darkTextColor
-                                : unSelectedtextColor,
-                            fontWeight: featuredcurrentIndex == index
+                            fontSize:
+                                selectedIndexOfFeatured == index ? 19 : 17,
+                            color: selectedIndexOfFeatured == index
+                                ? AppConstantsColor.darkTextColor
+                                : AppConstantsColor.unSelectedTextColor,
+                            fontWeight: selectedIndexOfFeatured == index
                                 ? FontWeight.bold
                                 : FontWeight.w400),
                       ),
@@ -133,22 +121,26 @@ class _BodyState extends State<Body> {
           width: width / 1.2,
           height: height / 2.4,
           child: ListView.builder(
+            physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            itemCount: snkModels.length,
+            itemCount: availableShoes.length,
             itemBuilder: (ctx, index) {
-              Models model = snkModels[index];
+              ShoeModel model = availableShoes[index];
               return GestureDetector(
                 onTap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (ctx) => DetailScreen(model: model),
+                      builder: (ctx) => DetailScreen(
+                        model: model,
+                        isComeFromMoreSection: false,
+                      ),
                     ),
                   );
                 },
                 child: Container(
                   margin: EdgeInsets.all(15),
-                  width: width / 1.6,
+                  width: width / 1.5,
                   child: Stack(
                     children: [
                       Container(
@@ -164,14 +156,8 @@ class _BodyState extends State<Body> {
                           delay: 1,
                           child: Row(
                             children: [
-                              Text(
-                                model.name,
-                                style: TextStyle(
-                                  color: lightTextColor,
-                                  fontSize: 17,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
+                              Text(model.name,
+                                  style: AppThemes.homeProductName),
                               SizedBox(
                                 width: 120,
                               ),
@@ -191,13 +177,8 @@ class _BodyState extends State<Body> {
                         left: 10,
                         child: FadeAnimation(
                           delay: 1.5,
-                          child: Text(
-                            model.model,
-                            style: TextStyle(
-                                color: lightTextColor,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 24),
-                          ),
+                          child: Text(model.model,
+                              style: AppThemes.homeProductModel),
                         ),
                       ),
                       Positioned(
@@ -205,18 +186,13 @@ class _BodyState extends State<Body> {
                         left: 10,
                         child: FadeAnimation(
                           delay: 2,
-                          child: Text(
-                            "\$${model.price.toStringAsFixed(2)}",
-                            style: TextStyle(
-                                color: lightTextColor,
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16),
-                          ),
+                          child: Text("\$${model.price.toStringAsFixed(2)}",
+                              style: AppThemes.homeProductPrice),
                         ),
                       ),
                       Positioned(
-                        left: 36,
-                        top: 50,
+                        left: 20,
+                        top: 60,
                         child: FadeAnimation(
                           delay: 2,
                           child: Hero(
@@ -224,8 +200,8 @@ class _BodyState extends State<Body> {
                             child: RotationTransition(
                               turns: AlwaysStoppedAnimation(-30 / 360),
                               child: Container(
-                                width: 220,
-                                height: 210,
+                                width: 250,
+                                height: 230,
                                 child: Image(
                                   image: AssetImage(model.imgAddress),
                                 ),
@@ -235,17 +211,10 @@ class _BodyState extends State<Body> {
                         ),
                       ),
                       Positioned(
-                        top: 240,
+                        bottom: 10,
                         left: 170,
                         child: IconButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (ctx) => DetailScreen(model: model),
-                              ),
-                            );
-                          },
+                          onPressed: () {},
                           icon: FaIcon(
                             FontAwesomeIcons.arrowCircleRight,
                             color: Colors.white,
@@ -265,23 +234,17 @@ class _BodyState extends State<Body> {
   }
 
 // More Text Widget Components
-  moreTextwidget() {
+  moreTextWidget() {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         children: [
-          Text(
-            "More",
-            style: TextStyle(
-                fontSize: 22,
-                color: darkTextColor,
-                fontWeight: FontWeight.bold),
-          ),
+          Text("More", style: AppThemes.homeMoreText),
           Expanded(child: Container()),
           IconButton(
               onPressed: () {},
               icon: FaIcon(
-                FontAwesomeIcons.longArrowAltRight,
+                CupertinoIcons.arrow_right,
                 size: 27,
               ))
         ],
@@ -295,16 +258,20 @@ class _BodyState extends State<Body> {
       width: width,
       height: height / 4,
       child: ListView.builder(
-          itemCount: snkModels.length,
+          physics: BouncingScrollPhysics(),
+          itemCount: availableShoes.length,
           scrollDirection: Axis.horizontal,
           itemBuilder: (ctx, index) {
-            Models model = snkModels[index];
+            ShoeModel model = availableShoes[index];
             return GestureDetector(
               onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (ctx) => DetailScreen(model: model),
+                    builder: (ctx) => DetailScreen(
+                      model: model,
+                      isComeFromMoreSection: true,
+                    ),
                   ),
                 );
               },
@@ -331,14 +298,8 @@ class _BodyState extends State<Body> {
                               child: Center(
                                   child: FadeAnimation(
                                 delay: 1.5,
-                                child: Text(
-                                  "NEW",
-                                  style: TextStyle(
-                                    color: lightTextColor,
-                                    fontWeight: FontWeight.w500,
-                                    fontSize: 18,
-                                  ),
-                                ),
+                                child: Text("NEW",
+                                    style: AppThemes.homeGridNewText),
                               ))),
                         ),
                       ),
@@ -349,7 +310,7 @@ class _BodyState extends State<Body> {
                         onPressed: () {},
                         icon: Icon(
                           Icons.favorite_border,
-                          color: darkTextColor,
+                          color: AppConstantsColor.darkTextColor,
                         ),
                       ),
                     ),
@@ -363,8 +324,11 @@ class _BodyState extends State<Body> {
                           child: Container(
                             width: width / 3,
                             height: height / 9,
-                            child: Image(
-                              image: AssetImage(model.imgAddress),
+                            child: Hero(
+                              tag: model.model,
+                              child: Image(
+                                image: AssetImage(model.imgAddress),
+                              ),
                             ),
                           ),
                         ),
@@ -379,13 +343,8 @@ class _BodyState extends State<Body> {
                           width: width / 4,
                           height: height / 42,
                           child: FittedBox(
-                            child: Text(
-                              "${model.name} ${model.model}",
-                              style: TextStyle(
-                                color: darkTextColor,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
+                            child: Text("${model.name} ${model.model}",
+                                style: AppThemes.homeGridNameAndModel),
                           ),
                         ),
                       ),
@@ -401,10 +360,7 @@ class _BodyState extends State<Body> {
                           child: FittedBox(
                             child: Text(
                               "\$${model.price.toStringAsFixed(2)}",
-                              style: TextStyle(
-                                color: darkTextColor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: AppThemes.homeGridPrice
                             ),
                           ),
                         ),

@@ -1,7 +1,8 @@
 // ignore_for_file: prefer_const_constructors, sized_box_for_whitespace, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
-import '../../../constanst.dart';
+import 'package:sneakers_app/theme/custom_app_theme.dart';
+import '../../../utils/constants.dart';
 
 class RoundedLisTile extends StatelessWidget {
   double width;
@@ -37,17 +38,11 @@ class RoundedLisTile extends StatelessWidget {
                   onPressed: () {},
                   icon: Icon(
                     icon,
-                    color: lightTextColor,
+                    color: AppConstantsColor.lightTextColor,
                   ),
                 ),
               ),
-              title: Text(
-                title,
-                style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    color: darkTextColor,
-                    fontSize: 18),
-              ),
+              title: Text(title, style: AppThemes.profileRepeatedListTileTitle),
               trailing: trailing),
         ),
       ),

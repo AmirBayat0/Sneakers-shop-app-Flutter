@@ -1,56 +1,43 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace, must_be_immutable, use_key_in_widget_constructors
 
 import 'package:flutter/material.dart';
+
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:sneakers_app/animation/fadeanimation.dart';
-import 'package:sneakers_app/constanst.dart';
-import 'package:sneakers_app/models/model.dart';
 
+import '../../../../../animation/fadeanimation.dart';
+import '../../../../../utils/app_methods.dart';
+import '../../../../../utils/constants.dart';
+import '../../../../../models/shoe_model.dart';
+import '../../../data/dummy_data.dart';
+import '../../../models/models.dart';
+import '../../../theme/custom_app_theme.dart';
 
-class BodyDe extends StatefulWidget {
-  Models model;
-  BodyDe({required this.model});
+class DetailsBody extends StatefulWidget {
+  ShoeModel model;
+  bool isComeFromMoreSection;
+  DetailsBody({required this.model, required this.isComeFromMoreSection});
 
   @override
-  _BodyDeState createState() => _BodyDeState();
+  details createState() => details();
 }
 
-class _BodyDeState extends State<BodyDe> {
-  final List<double> sizes = [6, 7.5, 8, 9.5];
+class details extends State<DetailsBody> {
   bool _isSelectedCountry = false;
   int? _isSelectedSize;
-
-  void _addToBag({
-    required String model,
-    required double price,
-    required String imgAddress,
-    required numOfShoe,
-  }) {
-    final addedShoe = BagModels(
-      model: model,
-      price: price,
-      imgAddress: imgAddress,
-      numOfShoe: numOfShoe,
-    );
-    setState(() {
-      bagModels.add(addedShoe);
-    });
-  }
-
-  
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Container(
-        width: width,
-        height: height * 1.01,
+    return Container(
+      width: width,
+      height: height * 1.1,
+      child: SingleChildScrollView(
+        physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            topInformationwidget(width, height),
-            midelImgListWidget(width, height),
+            topInformationWidget(width, height),
+            middleImgListWidget(width, height),
             SizedBox(
               height: 20,
               width: width / 1.1,
@@ -62,11 +49,8 @@ class _BodyDeState extends State<BodyDe> {
             SizedBox(
               height: 10,
             ),
-            Container(
-              margin: EdgeInsets.symmetric(horizontal: 15),
-              width: width,
-              height: height / 2.25,
-              //color: Colors.red, just for debuging
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: Column(
                 children: [
                   nameAndPrice(),
@@ -77,11 +61,17 @@ class _BodyDeState extends State<BodyDe> {
                   ),
                   moreDetailsText(width, height),
                   sizeTextAndCountry(width, height),
+                  SizedBox(
+                    height: 10,
+                  ),
                   endSizesAndButton(width, height),
                   SizedBox(
                     height: 20,
                   ),
-                  materialButton(width, height)
+                  materialButton(width, height),
+                  SizedBox(
+                    height: 20,
+                  ),
                 ],
               ),
             )
@@ -92,7 +82,7 @@ class _BodyDeState extends State<BodyDe> {
   }
 
   // Top information Widget Components
-  topInformationwidget(width, height) {
+  topInformationWidget(width, height) {
     return Container(
       width: width,
       height: height / 2.3,
@@ -120,7 +110,9 @@ class _BodyDeState extends State<BodyDe> {
             top: 100,
             left: 30,
             child: Hero(
-              tag: widget.model.imgAddress,
+              tag: widget.isComeFromMoreSection
+                  ? widget.model.model
+                  : widget.model.imgAddress,
               child: RotationTransition(
                 turns: AlwaysStoppedAnimation(-25 / 360),
                 child: Container(
@@ -136,8 +128,8 @@ class _BodyDeState extends State<BodyDe> {
     );
   }
 
-  // Rounded Image Widget About Below Methode Components
-  roundedimag(width, height) {
+  // Rounded Image Widget About Below method Components
+  roundedImage(width, height) {
     return Container(
       padding: EdgeInsets.all(2),
       width: width / 5,
@@ -152,8 +144,8 @@ class _BodyDeState extends State<BodyDe> {
     );
   }
 
-  // Middle Imagw List Widget Components
-  midelImgListWidget(width, height) {
+  // Middle Image List Widget Components
+  middleImgListWidget(width, height) {
     return FadeAnimation(
       delay: 0.5,
       child: Container(
@@ -163,9 +155,9 @@ class _BodyDeState extends State<BodyDe> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            roundedimag(width, height),
-            roundedimag(width, height),
-            roundedimag(width, height),
+            roundedImage(width, height),
+            roundedImage(width, height),
+            roundedImage(width, height),
             Container(
               padding: EdgeInsets.all(2),
               width: width / 5,
@@ -183,7 +175,7 @@ class _BodyDeState extends State<BodyDe> {
               child: Center(
                 child: Icon(
                   Icons.play_circle_fill,
-                  color: lightTextColor,
+                  color: AppConstantsColor.lightTextColor,
                   size: 30,
                 ),
               ),
@@ -199,29 +191,16 @@ class _BodyDeState extends State<BodyDe> {
     return FadeAnimation(
       delay: 3.5,
       child: MaterialButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
         minWidth: width / 1.2,
         height: height / 15,
-        color: materialButtonColor,
+        color: AppConstantsColor.materialButtonColor,
         onPressed: () {
-          _addToBag(
-            model: widget.model.model,
-            price: widget.model.price,
-            imgAddress: widget.model.imgAddress,
-            numOfShoe: 1,
-          );
-          final snackBar = SnackBar(
-              content: const Text('Added To Bag !'),
-              action: SnackBarAction(
-                label: 'Got it',
-                onPressed: () {
-                  // Some code to undo the change.
-                },
-              ));
-          ScaffoldMessenger.of(context).showSnackBar(snackBar);
+          AppMethods.addToCart(widget.model, context);
         },
         child: Text(
           "ADD TO BAG",
-          style: TextStyle(color: lightTextColor),
+          style: TextStyle(color: AppConstantsColor.lightTextColor),
         ),
       ),
     );
@@ -265,6 +244,7 @@ class _BodyDeState extends State<BodyDe> {
             Container(
               width: width / 1.5,
               child: ListView.builder(
+                  physics: BouncingScrollPhysics(),
                   itemCount: 4,
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (ctx, index) {
@@ -287,7 +267,7 @@ class _BodyDeState extends State<BodyDe> {
                               width: 1.5),
                           color: _isSelectedSize == index
                               ? Colors.black
-                              : backgroundColor,
+                              : AppConstantsColor.backgroundColor,
                         ),
                         child: Center(
                           child: Text(
@@ -320,7 +300,7 @@ class _BodyDeState extends State<BodyDe> {
             "Size",
             style: TextStyle(
               fontWeight: FontWeight.bold,
-              color: darkTextColor,
+              color: AppConstantsColor.darkTextColor,
               fontSize: 22,
             ),
           ),
@@ -340,14 +320,16 @@ class _BodyDeState extends State<BodyDe> {
                 style: TextStyle(
                   fontWeight:
                       _isSelectedCountry ? FontWeight.w400 : FontWeight.bold,
-                  color: _isSelectedCountry ? Colors.grey : darkTextColor,
+                  color: _isSelectedCountry
+                      ? Colors.grey
+                      : AppConstantsColor.darkTextColor,
                   fontSize: 19,
                 ),
               ),
             ),
           ),
           Container(
-            width: width / 7,
+            width: width / 5,
             child: TextButton(
               onPressed: () {
                 setState(() {
@@ -359,7 +341,9 @@ class _BodyDeState extends State<BodyDe> {
                 style: TextStyle(
                   fontWeight:
                       _isSelectedCountry ? FontWeight.bold : FontWeight.w400,
-                  color: _isSelectedCountry ? darkTextColor : Colors.grey,
+                  color: _isSelectedCountry
+                      ? AppConstantsColor.darkTextColor
+                      : Colors.grey,
                   fontSize: 20,
                 ),
               ),
@@ -370,7 +354,7 @@ class _BodyDeState extends State<BodyDe> {
     );
   }
 
-  //more detailes Text Components
+  //more details Text Components
   moreDetailsText(width, height) {
     return FadeAnimation(
       delay: 2,
@@ -378,13 +362,7 @@ class _BodyDeState extends State<BodyDe> {
         padding: EdgeInsets.only(right: 280),
         height: height / 26,
         child: FittedBox(
-            child: Text(
-          'MORE DETAILES',
-          style: TextStyle(
-              fontWeight: FontWeight.w500,
-              decoration: TextDecoration.underline,
-              height: 1),
-        )),
+            child: Text('MORE DETAILS', style: AppThemes.detailsMoreText)),
       ),
     );
   }
@@ -397,9 +375,8 @@ class _BodyDeState extends State<BodyDe> {
         width: width,
         height: height / 9,
         child: Text(
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
-          style: TextStyle(color: Colors.grey[600]),
-        ),
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin tincidunt laoreet enim, eget sodales ligula semper at. Sed id aliquet eros, nec vestibulum felis. Nunc maximus aliquet aliquam. Quisque eget sapien at velit cursus tincidunt. Duis tempor lacinia erat eget fermentum.",
+            style: AppThemes.detailsProductDescriptions),
       ),
     );
   }
@@ -415,18 +392,12 @@ class _BodyDeState extends State<BodyDe> {
             style: TextStyle(
               fontSize: 21,
               fontWeight: FontWeight.bold,
-              color: darkTextColor,
+              color: AppConstantsColor.darkTextColor,
             ),
           ),
           Expanded(child: Container()),
-          Text(
-            '\$${widget.model.price.toStringAsFixed(2)}',
-            style: TextStyle(
-              fontSize: 21,
-              fontWeight: FontWeight.bold,
-              color: darkTextColor,
-            ),
-          ),
+          Text('\$${widget.model.price.toStringAsFixed(2)}',
+              style: AppThemes.detailsProductPrice),
         ],
       ),
     );

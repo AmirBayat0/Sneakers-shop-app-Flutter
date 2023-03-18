@@ -1,10 +1,13 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:sneakers_app/animation/fadeanimation.dart';
-import 'package:sneakers_app/constanst.dart';
-import 'package:sneakers_app/models/model.dart';
-import 'package:sneakers_app/screens/profile/widget/repeated_list.dart';
+import 'package:sneakers_app/theme/custom_app_theme.dart';
+
+import '../../../../animation/fadeanimation.dart';
+import '../../../../models/models.dart';
+import '../../../../utils/constants.dart';
+import '../../../../view/profile/widget/repeated_list.dart';
+import '../../../data/dummy_data.dart';
 
 class BodyProfile extends StatefulWidget {
   const BodyProfile({Key? key}) : super(key: key);
@@ -14,17 +17,15 @@ class BodyProfile extends StatefulWidget {
 }
 
 class _BodyProfileState extends State<BodyProfile> {
-  
   int statusCurrentIndex = 0;
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
     return Container(
-      margin: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(horizontal: 8, vertical: 7),
       width: width,
       height: height,
-      // color: Colors.red.withOpacity(0.4),
       child: Column(
         children: [
           topProfilePicAndName(width, height),
@@ -35,7 +36,7 @@ class _BodyProfileState extends State<BodyProfile> {
           SizedBox(
             height: 30,
           ),
-          middleDashbord(width, height),
+          middleDashboard(width, height),
           bottomSection(width, height),
         ],
       ),
@@ -52,7 +53,7 @@ class _BodyProfileState extends State<BodyProfile> {
           CircleAvatar(
             radius: 50,
             backgroundImage: NetworkImage(
-                "https://wl-brightside.cf.tsp.li/resize/728x/jpg/bf0/944/7889d15ec98e3b8e5ca930c9e1.jpg"),
+                "https://avatars.githubusercontent.com/u/91388754?v=4"),
           ),
           SizedBox(
             width: 20,
@@ -61,11 +62,11 @@ class _BodyProfileState extends State<BodyProfile> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Edward Larry",
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                "Amir.H Bayat",
+                style: AppThemes.profileDevName
               ),
               Text(
-                "Junior Developer",
+                "Flutter Developer",
                 style: TextStyle(
                     fontSize: 17,
                     fontWeight: FontWeight.w500,
@@ -89,7 +90,8 @@ class _BodyProfileState extends State<BodyProfile> {
 
   // Middle Status List View Components
   middleStatusListView(width, height) {
-    return FadeAnimation(delay: 1.5,
+    return FadeAnimation(
+      delay: 1.5,
       child: Container(
         width: width,
         height: height / 9,
@@ -113,12 +115,12 @@ class _BodyProfileState extends State<BodyProfile> {
               child: Container(
                 width: width / 1.12,
                 height: height / 13,
-                // color: Colors.green,
                 child: ListView.builder(
+                    physics: BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
-                    itemCount: statusList.length,
+                    itemCount: userStatus.length,
                     itemBuilder: (ctx, index) {
-                      MyStatus status = statusList[index];
+                      UserStatus status = userStatus[index];
                       return GestureDetector(
                         onTap: () {
                           setState(() {
@@ -150,7 +152,7 @@ class _BodyProfileState extends State<BodyProfile> {
                                   status.txt,
                                   style: TextStyle(
                                       fontWeight: FontWeight.w600,
-                                      color: lightTextColor,
+                                      color: AppConstantsColor.lightTextColor,
                                       fontSize: 16),
                                 ),
                               ],
@@ -167,9 +169,10 @@ class _BodyProfileState extends State<BodyProfile> {
     );
   }
 
-  // Middle Dashbord Listtile Components
-  middleDashbord(width, height) {
-    return FadeAnimation(delay: 2,
+  // Middle Dashboard ListTile Components
+  middleDashboard(width, height) {
+    return FadeAnimation(
+      delay: 2,
       child: Container(
         width: width,
         height: height / 3,
@@ -179,7 +182,9 @@ class _BodyProfileState extends State<BodyProfile> {
             Text(
               "    Dashboard",
               style: TextStyle(
-                  fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 15),
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  fontSize: 15),
             ),
             SizedBox(
               height: 10,
@@ -204,11 +209,12 @@ class _BodyProfileState extends State<BodyProfile> {
                     Text(
                       "2 New",
                       style: TextStyle(
-                          color: lightTextColor, fontWeight: FontWeight.w500),
+                          color: AppConstantsColor.lightTextColor,
+                          fontWeight: FontWeight.w500),
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
-                      color: lightTextColor,
+                      color: AppConstantsColor.lightTextColor,
                       size: 15,
                     )
                   ],
@@ -220,7 +226,7 @@ class _BodyProfileState extends State<BodyProfile> {
               height: height,
               leadingBackColor: Colors.yellow[600],
               icon: Icons.archive,
-              title: "Achievments",
+              title: "Achievement's",
               trailing: Container(
                 width: 30,
                 height: 30,
@@ -233,7 +239,7 @@ class _BodyProfileState extends State<BodyProfile> {
                   children: [
                     Icon(
                       Icons.arrow_forward_ios,
-                      color: darkTextColor,
+                      color: AppConstantsColor.darkTextColor,
                       size: 15,
                     )
                   ],
@@ -260,11 +266,12 @@ class _BodyProfileState extends State<BodyProfile> {
                     Text(
                       "Action Needed  ",
                       style: TextStyle(
-                          color: lightTextColor, fontWeight: FontWeight.w500),
+                          color: AppConstantsColor.lightTextColor,
+                          fontWeight: FontWeight.w500),
                     ),
                     Icon(
                       Icons.arrow_forward_ios,
-                      color: lightTextColor,
+                      color: AppConstantsColor.lightTextColor,
                       size: 15,
                     )
                   ],
@@ -276,20 +283,23 @@ class _BodyProfileState extends State<BodyProfile> {
       ),
     );
   }
-  
+
   // My Account Section Components
   bottomSection(width, height) {
-    return FadeAnimation(delay: 2.5,
+    return FadeAnimation(
+      delay: 2.5,
       child: Container(
         width: width,
-        height: height / 8.6,
+        height: height / 6.5,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
               "    My Account",
               style: TextStyle(
-                  fontWeight: FontWeight.w500, color: Colors.grey, fontSize: 15),
+                  fontWeight: FontWeight.w500,
+                  color: Colors.grey,
+                  fontSize: 15),
             ),
             SizedBox(
               height: 15,
@@ -302,7 +312,7 @@ class _BodyProfileState extends State<BodyProfile> {
                   fontSize: 17),
             ),
             SizedBox(
-              height: 10,
+              height: 40,
             ),
             Text(
               "    Log Out",

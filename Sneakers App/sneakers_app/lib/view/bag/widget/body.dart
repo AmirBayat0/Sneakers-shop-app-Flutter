@@ -1,54 +1,50 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables, unnecessary_brace_in_string_interps, sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
-import 'package:sneakers_app/animation/fadeanimation.dart';
-import 'package:sneakers_app/constanst.dart';
-import 'package:sneakers_app/models/model.dart';
-import 'package:sneakers_app/screens/bag/widget/empty_list.dart';
+import 'package:sneakers_app/theme/custom_app_theme.dart';
 
-class BodyBag extends StatefulWidget {
+import '../../../../utils/app_methods.dart';
+import '../../../animation/fadeanimation.dart';
+import '../../../utils/constants.dart';
+import '../../../view/bag/widget/empty_list.dart';
+import '../../../data/dummy_data.dart';
+import '../../../models/models.dart';
+
+class BodyBagView extends StatefulWidget {
+  const BodyBagView({Key? key}) : super(key: key);
+
   @override
-  _BodyBagState createState() => _BodyBagState();
+  _BodyBagViewState createState() => _BodyBagViewState();
 }
 
-class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
-  double bagPriceSum() {
-    double sumPrice = 0;
-    for (BagModels bagModel in bagModels) {
-      sumPrice = sumPrice + bagModel.price;
-    }
-    return sumPrice;
-  }
-
-  int numOfItems = bagModels.length;
+class _BodyBagViewState extends State<BodyBagView>
+    with SingleTickerProviderStateMixin {
+  int lengthsOfItemsOnBag = itemsOnBag.length;
 
   @override
   Widget build(BuildContext context) {
     final width = MediaQuery.of(context).size.width;
     final height = MediaQuery.of(context).size.height;
-    return SingleChildScrollView(
-      child: Container(
-        margin: const EdgeInsets.all(10),
-        width: width,
-        height: height / 1.14,
-        // color: Colors.red,
-        child: Column(
-          children: [
-            topText(width, height),
-            Divider(
-              color: Colors.grey,
-            ),
-            bagModels.isEmpty
-                ? EmptyList()
-                : Column(children: [
-                    mainListView(width, height),
-                    SizedBox(
-                      height: 12,
-                    ),
-                    bottominfo(width, height),
-                  ])
-          ],
-        ),
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8.0),
+      width: width,
+      height: height,
+      child: Column(
+        children: [
+          topText(width, height),
+          Divider(
+            color: Colors.grey,
+          ),
+          itemsOnBag.isEmpty
+              ? EmptyList()
+              : Column(children: [
+                  mainListView(width, height),
+                  SizedBox(
+                    height: 12,
+                  ),
+                  bottomInfo(width, height),
+                ])
+        ],
       ),
     );
   }
@@ -63,19 +59,10 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            const Text(
-              "My Bag",
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 35,
-              ),
-            ),
+            const Text("My Bag", style: AppThemes.bagTitle),
             Text(
-              "Total ${numOfItems} Items",
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: 17,
-              ),
+              "Total ${lengthsOfItemsOnBag} Items",
+              style: AppThemes.bagTotalPrice,
             ),
           ],
         ),
@@ -88,41 +75,40 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
     return FadeAnimation(
       delay: 3,
       child: MaterialButton(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         minWidth: width / 1.2,
         height: height / 15,
-        color: materialButtonColor,
+        color: AppConstantsColor.materialButtonColor,
         onPressed: () {},
         child: Text(
           "NEXT",
-          style: TextStyle(color: lightTextColor),
+          style: TextStyle(color: AppConstantsColor.lightTextColor),
         ),
       ),
     );
   }
 
-  // Mian Listview Components
+  // Main ListView Components
   mainListView(width, height) {
     return Container(
       width: width,
       height: height / 1.6,
-      // color: Colors.yellow,
       child: ListView.builder(
+          physics: BouncingScrollPhysics(),
           scrollDirection: Axis.vertical,
-          itemCount: bagModels.length,
+          itemCount: itemsOnBag.length,
           itemBuilder: (ctx, index) {
-            BagModels bgmodel = bagModels[index];
+            ShoeModel currentBagItem = itemsOnBag[index];
 
             return FadeAnimation(
               delay: 1.5 * index / 4,
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 10),
+                margin: EdgeInsets.symmetric(vertical: 1),
                 width: width,
                 height: height / 5.2,
-                // color: Colors.blue,
                 child: Row(
                   children: [
                     Container(
-                      // color: Colors.green,
                       width: width / 2.8,
                       height: height / 5.7,
                       child: Stack(children: [
@@ -134,21 +120,21 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
                             height: height / 7.1,
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(25),
-                              color: Colors.grey[400],
+                              color: Colors.grey[350],
                             ),
                           ),
                         ),
                         Positioned(
-                            left: 13,
+                            right: 2,
                             bottom: 15,
                             child: RotationTransition(
                               turns: AlwaysStoppedAnimation(-40 / 360),
                               child: Container(
-                                width: 130,
-                                height: 130,
+                                width: 140,
+                                height: 140,
                                 child: Image(
                                   image: AssetImage(
-                                    bgmodel.imgAddress,
+                                    currentBagItem.imgAddress,
                                   ),
                                 ),
                               ),
@@ -161,25 +147,13 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
                         mainAxisAlignment: MainAxisAlignment.center,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            bgmodel.model,
-                            style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w500,
-                              color: darkTextColor,
-                            ),
-                          ),
+                          Text(currentBagItem.model,
+                              style: AppThemes.bagProductModel),
                           SizedBox(
                             height: 4,
                           ),
-                          Text(
-                            "\$${bgmodel.price}",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              color: darkTextColor,
-                            ),
-                          ),
+                          Text("\$${currentBagItem.price}",
+                              style: AppThemes.bagProductPrice),
                           SizedBox(
                             height: 10,
                           ),
@@ -188,9 +162,8 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
                               GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    bgmodel.numOfShoe--;
-                                    bagModels.remove(bgmodel);
-                                    numOfItems = bagModels.length;
+                                    itemsOnBag.remove(currentBagItem);
+                                    lengthsOfItemsOnBag = itemsOnBag.length;
                                   });
                                 },
                                 child: Container(
@@ -210,11 +183,7 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
                               SizedBox(
                                 width: 10,
                               ),
-                              Text(
-                                bgmodel.numOfShoe.toString(),
-                                style: TextStyle(
-                                    fontSize: 17, fontWeight: FontWeight.bold),
-                              ),
+                              Text("1", style: AppThemes.bagProductNumOfShoe),
                               SizedBox(
                                 width: 10,
                               ),
@@ -247,11 +216,11 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
     );
   }
 
-  bottominfo(width, height) {
+  bottomInfo(width, height) {
     return Container(
+      margin: EdgeInsets.only(top: 10.0),
       width: width,
       height: height / 7,
-      // color: Colors.blue,
       child: Column(
         children: [
           FadeAnimation(
@@ -259,25 +228,14 @@ class _BodyBagState extends State<BodyBag> with SingleTickerProviderStateMixin {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  "TOTAL",
-                  style: TextStyle(
-                      color: darkTextColor,
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16),
-                ),
-                Text(
-                  "\$${bagPriceSum()}",
-                  style: TextStyle(
-                      color: darkTextColor,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 20),
-                ),
+                Text("TOTAL", style: AppThemes.bagTotalPrice),
+                Text("\$${AppMethods.sumOfItemsOnBag()}",
+                    style: AppThemes.bagSumOfItemOnBag),
               ],
             ),
           ),
           SizedBox(
-            height: 20,
+            height: 30,
           ),
           materialButton(width, height)
         ],

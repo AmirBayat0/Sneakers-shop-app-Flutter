@@ -1,14 +1,14 @@
 // ignore_for_file: prefer_final_fields, prefer_const_constructors, use_key_in_widget_constructors
 
 import 'package:custom_navigation_bar/custom_navigation_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sneakers_app/constanst.dart';
-import 'package:sneakers_app/screens/bag/bag_screen.dart';
-import 'package:sneakers_app/screens/home/home_screen.dart';
-import 'package:sneakers_app/screens/profile/profile_screen.dart';
+import 'package:sneakers_app/utils/constants.dart';
+import 'package:sneakers_app/view/bag/bag_screen.dart';
+import 'package:sneakers_app/view/home/home_screen.dart';
+import 'package:sneakers_app/view/profile/profile_screen.dart';
 
 class MainNavigator extends StatefulWidget {
-  
   @override
   _MainNavigatorState createState() => _MainNavigatorState();
 }
@@ -34,6 +34,12 @@ class _MainNavigatorState extends State<MainNavigator> {
   }
 
   @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
@@ -43,20 +49,22 @@ class _MainNavigatorState extends State<MainNavigator> {
         physics: NeverScrollableScrollPhysics(),
       ),
       bottomNavigationBar: CustomNavigationBar(
-        iconSize: 30.0,
-        selectedColor: materialButtonColor,
-        strokeColor: materialButtonColor,
+        iconSize: 27.0,
+        bubbleCurve: Curves.linear,
+        selectedColor: AppConstantsColor.materialButtonColor,
+        strokeColor: AppConstantsColor.materialButtonColor,
         unSelectedColor: Color(0xffacacac),
         backgroundColor: Colors.white,
+        scaleFactor: 0.1,
         items: [
           CustomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
+            icon: Icon(CupertinoIcons.home),
           ),
           CustomNavigationBarItem(
-            icon: Icon(Icons.shopping_cart_outlined),
+            icon: Icon(CupertinoIcons.shopping_cart),
           ),
           CustomNavigationBarItem(
-            icon: Icon(Icons.person_outline_outlined),
+            icon: Icon(CupertinoIcons.person),
           ),
         ],
         onTap: _onItemTapped,

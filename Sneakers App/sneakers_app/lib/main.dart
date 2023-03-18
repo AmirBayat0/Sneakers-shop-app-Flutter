@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:sneakers_app/screens/navigator.dart';
+import 'package:sneakers_app/view/navigator.dart';
 
 void main() {
   runApp(const MyApp());
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         fontFamily: 'Quicksand',
       ),
-      title: 'Sneakers App',
+      title: 'Sneakers Shop App',
       home: MainNavigator(),
     );
   }

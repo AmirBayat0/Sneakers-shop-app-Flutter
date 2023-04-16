@@ -4,10 +4,12 @@
 ## Tutorial Video on Youtube:
 * [YOUTUBE](https://youtu.be/kHxfswX20Fk)
 
-## Description
-I made this app as practice in my Flutter 100 days challenge for myself. in this project, I used animation for the first time I used. the UI of this project is not my idea and I found it on the Dribble website but that was simple and I decided to change it and improve that.
+## Descriptions
+🤖👋 Hey there! As part of my Flutter 100 days challenge, I developed an app for some practice. It was a great opportunity for me to explore animation techniques, which I used for the first time in this project. 🎬
+While I was browsing through the Dribble website, I stumbled upon an interesting UI design that caught my attention. Although it was simple, I thought it had potential, so I decided to tweak and enhance it to my liking. 💡
 
-I Hope you Like this Project❤!
+Overall, I'm pretty excited about how this project turned out and I hope you will enjoy it too! ❤️
+
 ## ScreenShots
 ![Screenshot (301)](https://user-images.githubusercontent.com/91388754/153895676-ec09b17a-4f64-4d23-ad89-f6f2b535ab20.png)
 ![Screenshot (302)](https://user-images.githubusercontent.com/91388754/153895703-f1ff3b52-3b52-46f0-b98f-78a956131287.png)

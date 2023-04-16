@@ -27,7 +27,6 @@ Overall, I'm pretty excited about how this project turned out and I hope you wil
 ## My Socials:
 * [INSTAGRAM](https://www.instagram.com/codewithflexz)
 * [YOUTUBE]( https://www.youtube.com/c/ProgrammingWithFlexZ)
-* [GITHUB](https://github.com/AmirBayat0)
 * [CONTACT ME](https://amirbayat.dev@gmail.com)
 * [FIND MORE](https://zaap.bio/CodeWithFlexz)
 

@@ -1,4 +1,4 @@
-# Sneakers shop application using Flutter + Animations
+# Sneakers shop application (Nike Shoes App) using Flutter + Animations
 ![Untitled-1](https://user-images.githubusercontent.com/91388754/232321151-37b8be99-71fe-4eb8-9125-d96a36aa283f.png)
 
 ## Tutorial Video on Youtube:
